@@ -133,7 +133,10 @@ id usuario_do_dominio@example.com
 
 Se tudo estiver funcionando corretamente, você verá as informações do usuário do AD.
 
-#### 10. Configurar sincronização de tempo
+
+
+#### 10. Configurar sincronização de tempo (PROVALVELMENTE já está usando o time recebido via DHCP, e neste caso não precisa de configuração)
+
 Para garantir que o sistema Linux e o Active Directory tenham o tempo sincronizado (o que é crítico para o funcionamento correto do Kerberos), configure o **Chrony** ou **NTP**. Como você já instalou o `chrony` no início, edite o arquivo de configuração `/etc/chrony/chrony.conf` e adicione o servidor NTP do Active Directory:
 
 ```bash
@@ -149,20 +152,16 @@ sudo systemctl restart chrony
 ```
 
 #### 11. Ajustes no ambiente Desktop
-Para desabilitar a lista de usuários na tela de login:
-Ajustar a linha: disable-user-list=true
+Vá em configurações e escolha Janela de Início de Sessão
 
-```bash
-nano /etc/gdm3/greeter.dconf-defaults
-```
+Em Lista de Usuários habilite as duas opções:
+- Permitir início de sessão manual
+- Ocultar lista de usuário
 
-Este autostart ainda não sei como configurar e o quê!!!
-```bash
-nano /etc/xdg/autostart
-```
+
 ### 12. Impressoras
 
-Instalei o cliente do samba
+Instale o cliente do samba
 ```bash
 apt install smbclient
 ```
