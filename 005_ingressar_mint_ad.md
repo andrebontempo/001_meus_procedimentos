@@ -1,8 +1,8 @@
-## Ingressar um computador com **Ubuntu Linux** no **Active Directory**
+## Ingressar um computador com **Linux Mint 22.1 XIA** no **Active Directory**
 
 Link para ajudar o entendimento: https://www.server-world.info/en/note?os=Ubuntu_24.04&p=realmd
 
-Ingressar um computador com **Ubuntu Linux** no **Active Directory** (AD) é um processo que permite que o sistema Linux participe da mesma rede gerenciada centralmente pelo AD, permitindo que os usuários façam login com suas credenciais do AD. O Active Directory é amplamente utilizado em ambientes empresariais, e a integração de sistemas Linux pode ser útil para garantir uma administração centralizada.
+Ingressar um computador com **Linux Mint** no **Active Directory** (AD) é um processo que permite que o sistema Linux participe da mesma rede gerenciada centralmente pelo AD, permitindo que os usuários façam login com suas credenciais do AD. O Active Directory é amplamente utilizado em ambientes empresariais, e a integração de sistemas Linux pode ser útil para garantir uma administração centralizada.
 
 A seguir está um guia passo a passo para ingressar um Ubuntu Linux no Active Directory, utilizando ferramentas como o **Realmd**, **SSSD** (System Security Services Daemon) e o **Winbind**.
 
@@ -14,7 +14,7 @@ A seguir está um guia passo a passo para ingressar um Ubuntu Linux no Active Di
 ### Passos
 
 #### 1. Atualizar o sistema
-Primeiro, você precisa garantir que o seu sistema esteja atualizado. Execute os seguintes comandos para atualizar os pacotes do Ubuntu:
+Primeiro, você precisa garantir que o seu sistema esteja atualizado. Execute os seguintes comandos para atualizar os pacotes.
 
 ```bash
 sudo apt update
@@ -30,8 +30,8 @@ sudo apt install realmd sssd sssd-tools libnss-sss libpam-sss adcli samba-common
 
 Durante a instalação do pacote `krb5-user`, será solicitado o **nome do realm Kerberos**, que é geralmente o nome do domínio AD em **letras maiúsculas**. Por exemplo, se seu domínio for `example.com`, o realm será `EXAMPLE.COM`.
 
-#### 3. Configurar o DNS para o Active Directory
-O Ubuntu precisa ser capaz de resolver o nome do domínio Active Directory corretamente. Você pode configurar o DNS editando o arquivo `/etc/resolv.conf` ou configurando o DNS de forma permanente no gerenciador de rede. Edite o arquivo `/etc/netplan/00-installer-config.yaml` (ou equivalente) e adicione o servidor DNS do domínio.
+#### 3. Configurar o DNS para o Active Directory (se estiver cadastrado no DHCP não precisa fazer esta configuração)
+O Mint precisa ser capaz de resolver o nome do domínio Active Directory corretamente. Você pode configurar o DNS editando o arquivo `/etc/resolv.conf` ou configurando o DNS de forma permanente no gerenciador de rede. Edite o arquivo `/etc/netplan/00-installer-config.yaml` (ou equivalente) e adicione o servidor DNS do domínio.
 
 ```yaml
 nameservers:
@@ -86,16 +86,19 @@ config_file_version = 2
 services = nss, pam
 
 [domain/example.com]
-ad_domain = example.com
-krb5_realm = EXAMPLE.COM
-realmd_tags = manages-system joined-with-samba
+default_shell = /bin/bash
+kbr5_store_password_if_offline = true
 cache_credentials = True
+krb5_realm = EXAMPLE.COM
+realmd_tags = manages-system joined-with-adcli
 id_provider = ad
 fallback_homedir = /home/%u
-default_shell = /bin/bash
-ldap_id_mapping = True
+ad_domain = example.com
 use_fully_qualified_names = False
+ldap_id_mapping = True
 access_provider = ad
+
+
 ```
 
 Depois de salvar as alterações, defina as permissões corretas para o arquivo:
