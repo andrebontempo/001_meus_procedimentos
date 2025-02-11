@@ -30,7 +30,7 @@ Carregue as configurações:
 ```bash
 source /etc/environment
 ```
-
+### Testei em FEV/2025 no LInux MInt 22.1 e funcionou inclusive o APT
 ---
 
 ### 2️⃣ **Configurar o Proxy para o APT**
