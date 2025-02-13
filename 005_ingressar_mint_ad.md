@@ -151,6 +151,19 @@ Reinicie o serviço Chrony:
 sudo systemctl restart chrony
 ```
 
+Teste o serviço Chrony:
+
+```bash
+chronyc sources -v
+```
+O * indica o servidor principal que está sendo usado.
+O + mostra servidores alternativos.
+
+Caso o servidor do AD não apareça, tente sincronizar manualmente:
+```bash
+sudo chronyc makestep
+```
+
 #### 11. Ajustes no ambiente Desktop
 Vá em configurações e escolha Janela de Início de Sessão
 
